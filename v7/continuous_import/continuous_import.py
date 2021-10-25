@@ -79,7 +79,7 @@ class CommandContinuousImport(Command):
         output_name = os.path.join(feed['output_folder'],
                                    slugify(title, feed['lang'])) + source_ext
         start_at = feed.get('start_at', '1970-1-1')
-        start_at = dateutil.parser.parse(start_at, ignoretz=True)
+        start_at = dateutil.parser.parse(start_at, ignoretz=False)
         content = self.site.render_template(
             feed['template'],
             None,
@@ -96,7 +96,7 @@ class CommandContinuousImport(Command):
         if 'tags' not in metadata:
             metadata['tags'] = feed['tags']
 
-        if dateutil.parser.parse(metadata['date'], ignoretz=True) < start_at:
+        if dateutil.parser.parse(metadata['date'], ignoretz=False) < start_at:
             # skip old post
             return
 
